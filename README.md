@@ -1,807 +1,189 @@
-# RemitWise Frontend
+# ✺ MERIDIAN
+> *Where real-world effort meets on-chain value. Work. Earn. Grow.*
 
-Frontend application for the RemitWise remittance and financial planning platform.
+---
 
-> **New contributors:** start with [CONTRIBUTING.md](CONTRIBUTING.md) for branch conventions, verified test commands, and PR expectations, then read [docs/architecture.md](docs/architecture.md) for a full route and layer map.
+## What is MERIDIAN?
 
-## Overview
+MERIDIAN is a **productivity-powered on-chain economy** built on the Stellar blockchain. It transforms the work you already do — focus sessions, streaks, daily consistency — into verifiable on-chain progression, streaming payroll, and yield-backed rewards.
 
-This is a Next.js-based frontend skeleton that provides the UI structure for all RemitWise features. The application is built with:
+No speculation. No trading. Just effort, rewarded.
 
-- **Next.js 14** - React framework with App Router
-- **TypeScript** - Type safety
-- **Tailwind CSS** - Utility-first styling
-- **Lucide React** - Icon library
+Think of it as three things working as one:
 
-## Features (Placeholders)
+- A **focus and habit engine** that turns deep work into XP and on-chain pet progression
+- A **payroll streaming protocol** that pays workers per second, not per month
+- A **no-loss reward pool** where consistent users compete for yield — never principal
 
-The frontend includes placeholder pages and components for:
+Everything is connected through a single wallet, a single identity, and a unified on-chain economy on Stellar.
 
-1. **Dashboard** - Overview of remittances, savings, bills, and insurance
-2. **Send Money** - Remittance sending interface with automatic split preview
-3. **Smart Money Split** - Configuration for automatic allocation
-4. **Savings Goals** - Goal-based savings tracking and management
-5. **Bill Payments** - Bill tracking, scheduling, and payment
-6. **Micro-Insurance** - Policy management and premium payments
-7. **Family Wallets** - Family member management with roles and spending limits
+---
 
-## Loading States
+## Why Stellar?
 
-Dashboard, Bills, and Insights now use route-level skeleton screens built from `components/ui/Skeleton.tsx` so primary panels load with stable layout blocks instead of ad-hoc spinners.
+MERIDIAN is purpose-built on Stellar because the chain was built for real people and real payments:
 
-## Sentry
+- **⚡ Fast** — 3–5 second finality, sessions and payroll confirmed instantly
+- **💸 Near-zero fees** — micro-rewards and per-second streaming are only viable here
+- **🌍 Global** — designed for the underbanked and emerging markets from day one
+- **🦀 Smart** — Soroban brings expressive Rust contracts to power complex logic
+- **🤝 Native assets** — XLM and custom tokens flow without bridges or wrappers
 
-Sentry is wired through the client, server, and edge config files with separate environment variables for each runtime:
+---
 
-- `NEXT_PUBLIC_SENTRY_DSN` is used by the browser bundle.
-- `SENTRY_DSN` and `SENTRY_RELEASE` are used on the server and edge runtimes.
-- `SENTRY_ORG`, `SENTRY_PROJECT`, and `SENTRY_AUTH_TOKEN` are required for source map uploads in CI.
-- `NEXT_PUBLIC_APP_ENV` drives sampling behavior, with higher collection in development and lower rates in production.
-- The Sentry tunnel route is `/monitoring`, which keeps requests working through ad blockers.
+## The Three Pillars
 
-PII scrubbing is applied before events leave the app:
+---
 
-- Client events scrub Stellar public keys and amount strings.
-- Server events use the same scrubbing plus `iron-session` token redaction.
-- Edge events stay minimal and do not attach replay or extra scrubbing.
+### 01 — FOCUS
+*Turn deep work into on-chain progression.*
 
-Keep the auth token out of the repo and store it only in CI secrets.
+Set a focus timer — 10, 25, or 45 minutes — and stay present. When the session ends, your on-chain companion receives XP and your streak is preserved. Neglect it and health decays. Nurture it and watch it evolve through five stages — Egg, Baby, Teen, Adult, Elder — driven purely by real-world consistency.
 
-## Getting Started
+**Key mechanics:**
+- XP earned per session, recorded on-chain via Soroban contract
+- Pet health decays every 24 hours — daily effort is required to maintain progress
+- Streak bonuses add XP multipliers for consecutive daily sessions
+- Night owl bonus (midnight–6 AM) applies a 1.1x XP multiplier
+- Supercharge mode streams XLM to a community yield pool in real time — pausing health decay and boosting XP
 
-### Environment Configuration
+**Supercharge tiers:**
 
-The application requires connection to a Soroban RPC node.
+| Tier | Rate | XP Multiplier |
+|---|---|---|
+| Gentle Flow | 1 XLM/mo | 1.2x |
+| Power Surge | 5 XLM/mo | 1.4x |
+| Max Overdrive | 10 XLM/mo | 1.7x |
 
-- **Testnet:** `https://soroban-testnet.stellar.org` (Passphrase: `Test SDF Network ; September 2015`)
-- **Mainnet:** `https://soroban-rpc.stellar.org` (Passphrase: `Public Global Stellar Network ; September 2015`)
+**Shop** — spend earned tokens on food, shields, energy drinks, revivals, and cosmetics. 10% of all shop transactions flow to the community yield pool.
 
-### Prerequisites
+---
 
-- Node.js 18+
-- npm or yarn
+### 02 — STREAM
+*Payroll that flows like water — per second, not per month.*
 
-### Installation
+MERIDIAN Stream is a payroll streaming protocol for the Stellar ecosystem. Employers deposit stablecoins and open a payment stream. Employees accrue earnings every second and withdraw at any time — no waiting for month-end, no banking delays, no middlemen.
 
-```bash
-# Install dependencies
-npm install
+Built for the millions of gig workers, freelancers, and remote employees in emerging markets who can't afford to wait 30 days to access money they've already earned.
 
-# Setup Database
-# 1. Ensure you have `.env` file with `DATABASE_URL="file:./dev.db"`
-# Note: For serverless environments (like Vercel), connection pooling limits (default min 1, max 10) 
-# and timeouts (5s) are automatically configured on the Prisma DB client.
-# 2. Run initial Prisma migration
-npx prisma migrate dev
+**How it works:**
+1. Employer deposits funds into a MERIDIAN Stream vault (Soroban contract)
+2. A per-second stream rate is set per employee
+3. Employees see their balance tick up in real time and withdraw anytime
+4. Sub-cent transaction fees on Stellar make micro-withdrawals practical
 
-# Run development server
-npm run dev
+**Supported assets:** XLM, USDC (Stellar), and any Stellar-issued stablecoin
+
+---
+
+### 03 — POOL
+*A no-loss prize pool for consistent contributors.*
+
+Every week, MERIDIAN aggregates XP earned across the network. The top performers earn entries into a yield lottery — funded by the community supercharge streams and shop fees. The yield goes to one winner. The principal stays with everyone.
+
+No one loses their stake. Ever.
+
+| Rank | Reward |
+|---|---|
+| Top 5 | Trophy NFT (Soroban-minted, monthly) |
+| Pool winner | Full weekly yield payout |
+| All participants | Principal fully preserved |
+
+---
+
+## Identity & Trust
+
+Users who complete identity verification receive a verified badge on their leaderboard profile. Verification uses a privacy-preserving proof — no biometric data is stored by MERIDIAN. Verified users receive bonus XP multipliers and appear distinctly on the global leaderboard.
+
+The leaderboard is fully public. No wallet required to view rankings, pet stages, streaks, or verified status.
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Frontend | Next.js 15 (App Router), React 19, Tailwind v4 |
+| Auth | Stellar Wallets Kit + embedded wallet support |
+| Blockchain | Stellar Network |
+| Contracts | Rust — Soroban smart contracts |
+| Payment streaming | Stellar payment channels + Soroban vault contracts |
+| Backend | Supabase (leaderboard, session sync) |
+| Notifications | Web Push API + scheduled triggers |
+| Animations | Framer Motion |
+
+---
+
+## Smart Contracts (Soroban / Rust)
+
+```
+contracts/
+├── focus_engine/       ← XP computation, session recording, pet state
+├── stream_vault/       ← Payroll deposit, per-second streaming, withdrawals
+├── prize_pool/         ← Yield aggregation, lottery resolution, NFT minting
+├── shop/               ← Item purchases, fee routing to pool
+└── identity/           ← Verified badge management
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+All contracts are written in Rust, compiled to WASM, and deployed on Stellar Soroban. Open-source and fully auditable. No admin upgrade keys on core contracts.
 
-### Build
-
-```bash
-# Build for production
-npm run build
-
-# Start production server
-npm start
-```
-
-### Testing Toolchain
-
-This project uses a multi-tool testing strategy. Note that **Jest is not used** in this repository.
-
-#### Testing Frameworks Mapping
-
-- **Node.js Native Test Runner (`node:test`)**
-  - Used for: `.cjs` files
-  - Commands: `npm run test:unit:node`, `npm run test:integration`
-
-- **Vitest**
-  - Used for: `.ts` / `.tsx` files (Unit & component testing)
-  - Commands: `npm run test:unit:vitest`, `npm run test:coverage`
-
-- **Playwright**
-  - Used for: End-to-End (E2E) testing
-  - Command: `npm run test:e2e`
-
-- **Property Tests**
-  - Used for: Property-based testing
-  - Command: `npm run test:property`
-
-> **Full guide:** see [docs/testing.md](docs/testing.md) for the complete multi-runner
-> reference — when to use Vitest vs. node:test vs. Playwright, a map of every
-> `package.json` test script, the `tests/` layout, coverage and gate expectations, and a
-> "how to add a test" recipe per runner.
-
-#### Running Tests
-
-It is important to understand the difference between `npm run test` and `npm run test:coverage`:
-
-- `npm run test` (Limited): Runs a standard fast suite of tests (typically limited to unit tests).
-- `npm run test:coverage` (Broad): Uses Vitest to run the broader test suite (including all `.test.ts` files) and generates a comprehensive code coverage report. Contributors should generally use this to ensure full coverage.
-
-```bash
-# Run standard unit tests
-npm test
-
-# Run full Vitest suite with coverage
-npm run test:coverage
-
-# Run integration tests
-npm run test:integration
-```
-
-#### Unit Tests
-
-- **Location**: `tests/unit/` and `tests/session/`
-- **Command**: `npm run test:unit` (runs both Node and Vitest)
-
-#### Integration Tests
-
-- **Location**: `tests/integration/`
-- **Command**: `npm run test:integration`
-- **Framework**: `node:test` + direct route handler calls
-- **Database**: In-memory SQLite (fast, isolated)
-- **Speed**: Sub-10 second execution
-
-**What's Tested:**
-
-- `GET /api/health` - Health check (no auth required)
-- `POST /api/auth/nonce` - Nonce generation
-- `POST /api/auth/login` - Authentication with signature
-- `POST /api/auth/logout` - Session cleanup
-- `GET /api/split` - Protected route with auth enforcement
-- Error handling (400, 401, 404 responses)
-
-**How They Work:**
-Integration tests import route handlers directly and call them as functions with mock requests. No server startup overhead, fully deterministic.
-
-**Documentation**: See [docs/TESTING_INTEGRATION.md](docs/TESTING_INTEGRATION.md) for detailed guide on writing and running integration tests.
-
-#### CI Integration
-
-Tests run on GitHub Actions for every push/PR to `main` and `dev`. The pipeline fails if any tests fail.
-
-### Authentication & Signature Verification
-
-RemitWise implements a nonce-based challenge-response authentication mechanism to verify genuine wallet ownership over the Stellar network.
-
-**Message Format and Verification Steps:**
-
-1. **Request Nonce:** The frontend calls `GET /api/auth/nonce?address=<STELLAR_PUBLIC_KEY>` to receive a securely generated random 32-byte hex string (nonce). This nonce is temporarily cached on the server.
-2. **Sign Nonce:** The client wallet (e.g., Freighter) is prompted to sign the raw nonce. The message to be signed is the byte representation of the hex nonce.
-3. **Submit Signature:** The client submits `{"address": "...", "signature": "..."}` to `POST /api/auth/login`. The signature should be base64-encoded.
-4. **Verification:** The backend converts the nonce to a Buffer and verifies the base64 signature against the supplied public address using `@stellar/stellar-sdk` (`Keypair.fromPublicKey(address).verify(nonceBuffer, signatureBuffer)`). Invalid signatures or missing/expired nonces will receive a `401 Unauthorized`.
-
-### End-to-End Testing
-
-To run the Playwright end-to-end tests for authentication and protected routes:
-
-```bash
-# Run tests
-npm run test:e2e
-```
+---
 
 ## Project Structure
 
 ```
-remitwise-frontend/
+meridian/
+├── contracts/          ← Soroban Rust contracts
 ├── app/
-│   ├── api/                 # API routes
-│   ├── layout.tsx          # Root layout
-│   ├── page.tsx             # Home page
-│   ├── globals.css          # Global styles
-│   ├── dashboard/           # Dashboard page
-│   ├── send/                # Send money page
-│   ├── split/               # Money split configuration
-│   ├── goals/               # Savings goals
-│   ├── bills/               # Bill payments
-│   ├── insurance/           # Insurance policies
-│   └── family/              # Family wallets
-├── components/              # Reusable components
-├── lib/                     # Utilities and helpers
-│   └── auth.ts              # Auth middleware
-├── docs/                    # Documentation
-│   ├── API_ROUTES.md        # API routes documentation
-│   └── contract-cache.md    # Contract caching architecture and guidelines
-├── public/                  # Static assets
-└── package.json
+│   ├── src/
+│   │   ├── app/        ← Next.js App Router pages + API routes
+│   │   ├── components/ ← UI components (pet view, timer, stream dashboard)
+│   │   ├── hooks/      ← Stellar SDK + app-specific React hooks
+│   │   └── utils/      ← XP formulas, pet stage logic, stream calculators
+│   └── public/         ← Pet sprites, shop assets, icons
+└── sdk/                ← TypeScript helpers for integrators
 ```
 
-## API Routes
+---
 
-See [API Routes Documentation](./docs/API_ROUTES.md) for details on authentication and available endpoints.
-
-For authenticated browser-side requests, use the shared client API layer documented in [docs/client-api.md](docs/client-api.md). That guide covers when to use `apiClient` instead of raw `fetch`, the `401 -> refresh -> retry once` flow, session-expiry UI surfacing, and logout behavior.
-
-**Quick Reference:**
-
-- Public routes: `/api/health`, `/api/auth/*`
-- Protected routes: `/api/user/*`, `/api/split`, `/api/goals`, `/api/bills`, `/api/insurance`, `/api/family`, `/api/send`
-
-## Integration Requirements
-
-### Stellar SDK Integration
-
-1. **Wallet Connection**
-   - Integrate Freighter wallet or similar
-   - Connect to Stellar network (testnet/mainnet)
-   - Handle account authentication
-
-2. **Smart Contract Integration**
-   - Connect to deployed Soroban contracts
-   - Implement contract function calls
-   - Handle transaction signing and submission
-
-3. **Anchor Platform Integration**
-   - Integrate with anchor platform APIs for fiat on/off-ramps
-   - Handle deposit/withdrawal flows
-   - Process exchange rate quotes
-   - **Environment Setup:** Set `ANCHOR_API_BASE_URL` in your `.env` file (see `.env.example`).
-   - **Frontend API Endpoints:**
-     - `GET /api/anchor/rates` (cached exchange rates)
-     - `POST /api/anchor/deposit` (authenticated; starts fiat -> USDC flow)
-     - `POST /api/anchor/withdraw` (authenticated; starts USDC -> fiat flow)
-   - Deposit/withdraw returns `501 Not Implemented` when anchor integration is not configured.
-
-4. **Transaction Tracking**
-   - Display on-chain transaction history
-   - Show transaction status and confirmations
-   - Implement real-time updates
-
-### Key Integration Points
-
-- **Send Money Page**: Connect to Stellar SDK for transaction creation and signing
-- **Split Configuration**: Call `remittance_split` contract to initialize/update split
-- **Savings Goals**: Integrate with `savings_goals` contract for goal management
-- **Bills**: Connect to `bill_payments` contract for bill tracking
-- **Insurance**: Integrate with `insurance` contract for policy management
-- **Family Wallets**: Connect to `family_wallet` contract for member management
-
-## Backend / API
-
-### Overview
-
-This Next.js application uses API routes to handle backend functionality. API routes are located in the `app/api/` directory and follow Next.js 14 App Router conventions.
-
-**Key API Routes:**
-
-- `/api/auth/*` - Authentication endpoints (wallet connect, nonce generation, signature verification)
-- `/api/transactions/*` - Transaction history and status
-- `/api/contracts/*` - Soroban smart contract interactions
-- `/api/health` - Health check endpoint
-
-All API routes are serverless functions deployed alongside the frontend.
-
-### Environment Variables
-
-Create a `.env.local` file in the root directory with the following variables:
+## Getting Started
 
 ```bash
-# Stellar Network Configuration
-NEXT_PUBLIC_STELLAR_NETWORK=testnet  # or 'mainnet'
-SOROBAN_NETWORK=testnet              # server-side network selector: testnet|mainnet
-NEXT_PUBLIC_HORIZON_URL=https://horizon-testnet.stellar.org
-NEXT_PUBLIC_SOROBAN_RPC_URL=https://soroban-testnet.stellar.org
-SOROBAN_RPC_URL=https://soroban-testnet.stellar.org
-
-# Contract IDs (server-side network resolution)
-# Option A: set per-network vars
-REMITTANCE_SPLIT_CONTRACT_ID_TESTNET=
-REMITTANCE_SPLIT_CONTRACT_ID_MAINNET=
-SAVINGS_GOALS_CONTRACT_ID_TESTNET=
-SAVINGS_GOALS_CONTRACT_ID_MAINNET=
-BILL_PAYMENTS_CONTRACT_ID_TESTNET=
-BILL_PAYMENTS_CONTRACT_ID_MAINNET=
-INSURANCE_CONTRACT_ID_TESTNET=
-INSURANCE_CONTRACT_ID_MAINNET=
-
-# Option B: single JSON with network keys
-# CONTRACT_IDS_JSON={"testnet":{"REMITTANCE_SPLIT_CONTRACT_ID":"...","SAVINGS_GOALS_CONTRACT_ID":"...","BILL_PAYMENTS_CONTRACT_ID":"...","INSURANCE_CONTRACT_ID":"..."},"mainnet":{"REMITTANCE_SPLIT_CONTRACT_ID":"...","SAVINGS_GOALS_CONTRACT_ID":"...","BILL_PAYMENTS_CONTRACT_ID":"...","INSURANCE_CONTRACT_ID":"..."}}
-
-# Authentication
-AUTH_SECRET=your-secret-key-here  # Generate with: openssl rand -base64 32
-SESSION_COOKIE_NAME=remitwise-session
-SESSION_MAX_AGE=86400  # 24 hours in seconds
-
-# API Configuration
-API_RATE_LIMIT=100  # requests per minute
-API_TIMEOUT=30000  # milliseconds
-
-# Optional: Anchor Platform
-ANCHOR_API_BASE_URL=
-ANCHOR_API_KEY=
-ANCHOR_DEPOSIT_PATH=/transactions/deposit/interactive
-ANCHOR_WITHDRAW_PATH=/transactions/withdraw/interactive
-ANCHOR_WEBHOOK_SECRET=
-
-# Admin / internal APIs
-ADMIN_SECRET=
-
-# In-process background shutdown timeout
-SHUTDOWN_TIMEOUT_MS=15000
-```
-
-See `.env.example` for a complete list of configuration options.
-
-### API Middleware Configuration
-
-The middleware (`middleware.ts`) applies CORS headers, security headers, and request validation to all `/api` routes.
-
-#### CORS Policy
-
-Cross-Origin Resource Sharing (CORS) is configured to allow requests from the frontend application:
-
-- **Allowed Origins**: Requests from `NEXT_PUBLIC_APP_URL` are allowed (or same-origin)
-- **Allowed Methods**: GET, POST, PUT, DELETE, PATCH, OPTIONS
-- **Allowed Headers**: Content-Type, Authorization, X-Requested-With
-- **Credentials**: Allowed for same-origin requests
-- **Preflight Handling**: OPTIONS requests return 204 No Content with appropriate CORS headers
-
-**Configuration:**
-
-Set `NEXT_PUBLIC_APP_URL` in `.env.local`:
-
-```bash
-# Frontend URL for CORS policy (e.g., http://localhost:3000)
-NEXT_PUBLIC_APP_URL=http://localhost:3000
-```
-
-**Example: Testing CORS**
-
-```bash
-# Test CORS headers on a preflight request
-curl -i -X OPTIONS http://localhost:3000/api/health \
-  -H "Origin: http://localhost:3000" \
-  -H "Access-Control-Request-Method: POST"
-
-# Response includes:
-# Access-Control-Allow-Origin: http://localhost:3000
-# Access-Control-Allow-Methods: GET, POST, PUT, DELETE, PATCH, OPTIONS
-# Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With
-```
-
-#### Security Headers
-
-All API responses include the following security headers to protect against common vulnerabilities:
-
-| Header                   | Value           | Purpose                                        |
-| ------------------------ | --------------- | ---------------------------------------------- |
-| `X-Content-Type-Options` | `nosniff`       | Prevents MIME-type sniffing attacks            |
-| `X-Frame-Options`        | `DENY`          | Prevents clickjacking attacks                  |
-| `X-XSS-Protection`       | `1; mode=block` | Legacy XSS protection (modern browsers ignore) |
-| `Vary`                   | `Origin`        | Instructs caches to vary response by origin    |
-
-These headers are applied automatically to all `/api` responses and do not require configuration.
-
-#### Request Body Size Limit
-
-POST, PUT, and PATCH requests are validated for size to prevent oversized payloads:
-
-- **Default Limit**: 1MB (1,048,576 bytes)
-- **Validation**: Checks `Content-Length` header first, falls back to reading body if header missing
-- **Response**: 413 Payload Too Large with JSON error details if exceeded
-
-**Configuration:**
-
-```bash
-# Maximum request body size in bytes (default 1MB)
-API_MAX_BODY_SIZE=1048576
-```
-
-**Example: Testing Body Size Validation**
-
-```bash
-# Valid request (under 1MB)
-curl -i -X POST http://localhost:3000/api/test \
-  -H "Content-Type: application/json" \
-  -d '{"data":"test"}'
-# Response: 200 OK or appropriate handler response
-
-# Oversized request (over 1MB)
-curl -i -X POST http://localhost:3000/api/test \
-  -H "Content-Type: application/json" \
-  -d "$(dd if=/dev/zero bs=1M count=2 2>/dev/null | base64)"
-# Response: 413 Payload Too Large
-# {"error": "Payload Too Large", "message": "Request body exceeds maximum size of 1048576 bytes."}
-```
-
-#### Middleware Flow
-
-The middleware processes requests in the following order:
-
-1. **Whitelist Checks** - Health check and Playwright test requests bypass all middleware
-2. **CORS & Security Headers** - Applied to all responses before processing
-3. **Preflight Handling** - OPTIONS requests return 204 No Content
-4. **Body Size Validation** - POST/PUT/PATCH requests checked against size limit
-5. **Rate Limiting** - Applied after headers/validation (does not block preflight)
-6. **Response** - Headers added to response, request proceeds to handler
-
-This order ensures OPTIONS preflight requests complete successfully while maintaining security and rate limiting enforcement.
-
-### Running the Backend
-
-The backend API routes run automatically with the Next.js development server:
-
-```bash
-# Development mode (with hot reload)
+git clone https://github.com/your-org/meridian.git
+cd meridian/app
+cp .env.example .env.local
+npm install
 npm run dev
-
-# Production build
-npm run build
-npm start
 ```
 
-The API will be available at `http://localhost:3000/api/*`
+**Required environment variables:** Stellar network config, Soroban RPC URL, Supabase URL + anon key, deployed contract addresses, WalletConnect project ID.
 
-### Authentication Flow
+---
 
-RemitWise uses wallet-based authentication with the following flow:
+## Use Cases
 
-1. **Wallet Connect**: User connects their Stellar wallet (Freighter, Albedo, etc.)
-   - Frontend detects wallet extension
-   - User authorizes connection
-   - Public key is retrieved
+- **Remote workers** — get paid every second, withdraw when you need it
+- **Freelancers** — transparent, on-chain proof of work and payment
+- **Students & builders** — build focus habits and earn on-chain progression
+- **Communities** — run shared yield pools funded by collective productivity
+- **Emerging markets** — low-fee, real-time payroll where banking infrastructure is weak
 
-2. **Nonce Generation**:
-   - Client requests nonce from `/api/auth/nonce`
-   - Server generates unique nonce and stores temporarily
-   - Nonce returned to client
+---
 
-3. **Signature Verification**:
-   - Client signs nonce with wallet private key
-   - Signed message sent to `/api/auth/verify`
-   - Server verifies signature matches public key
-   - If valid, session token is created
+## The Vision
 
-4. **Session Management**:
-   - JWT token stored in HTTP-only cookie
-   - Token includes user's public key and expiration
-   - Subsequent requests include token for authentication
-   - Token validated on protected API routes
+MERIDIAN exists for a simple reason — effort should be its own economy.
 
-**Protected Routes**: All `/api/transactions/*`, `/api/contracts/*` endpoints require valid session.
+The work you do every day has value. Your focus has value. Your consistency has value. MERIDIAN makes that value visible, portable, and rewarded — on a chain fast enough to keep up with real life.
 
-### Contract IDs and Deployment
+---
 
-The application interacts with the following Soroban smart contracts on Stellar:
+## Organization
 
-| Contract         | Purpose                       | Preferred Environment Variable                    |
-| ---------------- | ----------------------------- | ------------------------------------------------- |
-| Remittance Split | Automatic money allocation    | `REMITTANCE_SPLIT_CONTRACT_ID_TESTNET/_MAINNET` |
-| Savings Goals    | Goal-based savings management | `SAVINGS_GOALS_CONTRACT_ID_TESTNET/_MAINNET`    |
-| Bill Payments    | Bill tracking and payments    | `BILL_PAYMENTS_CONTRACT_ID_TESTNET/_MAINNET`    |
-| Insurance        | Micro-insurance policies      | `INSURANCE_CONTRACT_ID_TESTNET/_MAINNET`        |
-| Family Wallet    | Family member management      | `FAMILY_WALLET_CONTRACT_ID_TESTNET/_MAINNET`    |
+**MERIDIAN** is maintained by a small core team and open to contributors across all three pillars. Each contract, each service, and each frontend module is independently contributable.
 
-**Deployment Notes:**
+Built on Stellar. Open by default. Rewarding by design.
 
-- Contracts must be deployed to Stellar testnet/mainnet before use
-- Set `SOROBAN_NETWORK=testnet|mainnet` to choose active deployment
-- Provide contract IDs per network or via `CONTRACT_IDS_JSON`
-- `/api/health` includes current network and resolved contract IDs outside production (or when `HEALTH_INCLUDE_CONTRACT_IDS=true`)
-- Contract ABIs are included in `lib/contracts/` directory
+---
 
-### Health and Monitoring
-
-**Health Check Endpoint**: `GET /api/health`
-
-Returns system status and connectivity:
-
-```json
-{
-  "status": "healthy",
-  "timestamp": "2024-02-24T10:30:00Z",
-  "services": {
-    "stellar": "connected",
-    "contracts": "available",
-    "database": "connected"
-  },
-  "version": "0.1.0"
-}
-```
-
-**Monitoring Recommendations:**
-
-- Set up uptime monitoring for `/api/health`
-- Monitor API response times and error rates
-- Track Stellar network connectivity
-- Log contract interaction failures
-- Set alerts for authentication failures
-
-### Testing
-
-**Unit Tests**
-
-Test individual API route handlers and utility functions:
-
-```bash
-# Run unit tests
-npm test
-
-# Run with coverage
-npm run test:coverage
-
-# Watch mode
-npm run test:watch
-```
-
-Unit tests are located alongside source files with `.test.ts` extension.
-
-**Integration Tests**
-
-Test complete API flows including authentication and contract interactions:
-
-```bash
-# Run integration tests
-npm run test:integration
-
-# Test specific API route
-npm run test:integration -- auth
-```
-
-Integration tests are in the `__tests__/integration/` directory.
-
-**Testing Checklist:**
-
-- ✓ Authentication flow (nonce → sign → verify)
-- ✓ Contract interactions (all 5 contracts)
-- ✓ Error handling and validation
-- ✓ Rate limiting
-- ✓ Session management
-
-### API Documentation
-
-For detailed API specifications:
-
-- **OpenAPI Spec**: See `openapi.yaml` for complete API documentation
-- **Anchor/Admin/Shutdown Notes**: See `docs/ANCHOR_ADMIN_SHUTDOWN.md`
-- **Interactive Docs**: Run `npm run docs` to view Swagger UI at `http://localhost:3000/api-docs`
-- **Postman Collection**: Import `postman_collection.json` for testing
-
-**Quick API Reference:**
-
-```bash
-# Authentication
-POST /api/auth/nonce          # Get nonce for signing
-POST /api/auth/verify         # Verify signature and create session
-POST /api/auth/logout         # End session
-
-# Transactions
-GET  /api/transactions        # List user transactions
-GET  /api/transactions/:id    # Get transaction details
-
-# Contracts
-POST /api/contracts/split     # Initialize/update split configuration
-POST /api/contracts/goals     # Create/manage savings goals
-POST /api/contracts/bills     # Manage bill payments
-POST /api/contracts/insurance # Manage insurance policies
-POST /api/contracts/family    # Manage family wallet
-
-# System
-GET  /api/health              # Health check
-POST /api/anchor/deposit      # Start anchor deposit flow
-POST /api/anchor/withdraw     # Start anchor withdrawal flow
-POST /api/admin/cache/clear   # Admin-only cache invalidation
-GET  /api/admin/users         # Admin-only recent users
-GET  /api/admin/audit         # Admin-only audit events
-```
-
-### Anchor deposit/withdraw flow notes
-
-- `POST /api/anchor/deposit` body: `{ "amount": 100, "currency": "USD", "destination": "optional" }`
-- `POST /api/anchor/withdraw` body: `{ "amount": 100, "currency": "USD", "destinationAccount": "optional" }`
-- Routes call configured anchor interactive endpoints and return either `url` (interactive flow) and/or `steps`.
-- Pending flows are stored in-memory so webhook callbacks can reconcile status updates.
-
-### Admin route security
-
-- All `/api/admin/*` routes require `ADMIN_SECRET`.
-- Authorized inputs:
-  - Header: `X-Admin-Key: <ADMIN_SECRET>`
-  - Cookie: `admin_key=<ADMIN_SECRET>` (or `admin_secret=<ADMIN_SECRET>`)
-- Rotate `ADMIN_SECRET` regularly; optionally restrict admin routes with an upstream IP allowlist.
-
-### Graceful shutdown for in-process jobs
-
-- In-process background work (nonce cache sweeper and webhook async handlers) now registers `SIGTERM` / `SIGINT` handlers.
-- On shutdown:
-  - New background jobs are rejected.
-  - Active jobs are awaited up to `SHUTDOWN_TIMEOUT_MS` (default `15000` ms).
-  - Process exits after hooks and timeout race complete.
-- If production jobs run externally (Vercel Cron or a separate worker), this in-process shutdown path can remain idle.
-
-## Design Notes
-
-- All forms are currently disabled (placeholders)
-- UI uses a blue/indigo color scheme
-- Responsive design with mobile-first approach
-- Components are structured for easy integration
-
-## API Endpoints
-
-### Pagination
-
-All list endpoints support standardized cursor-based pagination with the following parameters:
-
-- `limit` (optional): Maximum number of items to return (default: 20, max: 100)
-- `cursor` (optional): Cursor for pagination (used to fetch the next page)
-
-Response shape for all paginated endpoints:
-
-```json
-{
-  "data": [...],
-  "nextCursor"?: "string",
-  "hasMore": boolean
-}
-```
-
-### Available Endpoints
-
-- `GET /api/goals`: Get paginated list of savings goals
-- `POST /api/goals`: Create a new savings goal
-- `GET /api/bills`: Get paginated list of bills
-- `POST /api/bills`: Create a new bill
-- `GET /api/remittance/history`: Get paginated list of transaction history
-- `POST /api/remittance/history`: Create a new transaction
-
-## Future Enhancements
-
-- Real-time transaction updates
-- Push notifications for bill reminders
-- Charts and graphs for financial insights
-- Multi-language support
-- Dark mode
-- Mobile app (React Native)
-
-## License
-
-MIT
-
-**API Versioning**
-
-- **Approach (decided):** URL prefix versioning using `/api/v{n}/...` (e.g. `/api/v1/...`). This is simple to route, cache, and reason about in the frontend and server layers.
-- **Current status:** The existing API surface in this repository is labeled as **v1**. To avoid breaking existing clients, the app rewrites `/api/*` to `/api/v1/*` at the Next.js layer so existing clients can continue using `/api/...` without changes.
-- **Routes:** When adding new server routes, prefer placing them under `app/api/v1/` (or `pages/api/v1/` if using pages router) so they are clearly versioned. Optionally duplicate stable v1 routes under the `v1` namespace during a migration window rather than deleting the legacy route immediately.
-- **How to introduce v2:** Create a new `app/api/v2/` namespace containing the new behavior. Update platform routes or API gateway rules to expose `/api/v2/...` and leave the rewrite in place so `/api/*` stays mapped to the last published stable version (v1) until you intentionally change it.
-
-**Deprecation Policy**
-
-- When a new major version (e.g. v2) is released, older major versions will be supported for a minimum of **6 months** before scheduled removal. During that window:
-  - Maintain security fixes and critical bug fixes for the deprecated major version.
-  - Announce deprecation clearly in changelogs and developer docs with migration guides.
-  - Provide automated redirects or compatibility layers where feasible.
-
-**OpenAPI / API Documentation**
-
-- This repository contains an OpenAPI descriptor for the current v1 API at `openapi.yaml` (root). The `servers` entry points to the `/api/v1` base path. Update `openapi.yaml` as you add endpoints.
-
-**Rate Limiting**
-
-- All `/api/*` routes are protected by a global rate limiter using in-memory `lru-cache`.
-- **Limits (per IP/session):**
-  - **Auth endpoints (`/api/auth/*`)**: 10 requests per minute
-  - **Write endpoints (`POST`, `PUT`, `DELETE`, `PATCH`)**: 50 requests per minute
-  - **General read endpoints (`GET`)**: 100 requests per minute
-- **Whitelisted routes**: `/api/health` is exempt from rate limiting to ensure uptime monitoring is not blocked.
-- **Behavior**: When a limit is exceeded, the server responds with a `429 Too Many Requests` status code and a `Retry-After` header indicating the number of seconds until the rate limit resets. Rate limit information is also provided in the response headers (`X-RateLimit-Limit`, `X-RateLimit-Remaining`, `X-RateLimit-Reset`).
-
-**Non-breaking guarantee**
-
-- To meet the repository's backward-compatibility requirement, we keep `/api/*` behavior unchanged by rewriting it to `/api/v1/*`. This preserves compatibility for existing consumers.
-
-If you want, I can also:
-
-- Move or duplicate any existing API route files into an explicit `app/api/v1/` folder.
-- Expand `openapi.yaml` with concrete endpoint definitions from your backend contract or tests.
-
-API Endpoints (v1)
-
-- `POST /api/bills` — Create bill transaction XDR
-  - Request headers: `x-user` (caller public key)
-  - Body: `{ name, amount, dueDate, recurring, frequencyDays }`
-  - Validations: `amount > 0`, `dueDate` valid ISO date, when `recurring === true` then `frequencyDays > 0`.
-  - Response: `{ xdr: string }` — unsigned transaction XDR ready for the frontend to sign and submit.
-
-- `POST /api/bills/[id]/pay` — Build pay-bill transaction XDR
-  - Request headers: `x-user` (caller public key)
-  - Response: `{ xdr: string }`
-
-- `POST /api/bills/[id]/cancel` — Build cancel-bill transaction XDR
-  - Request headers: `x-user` (caller public key)
-  - Optional owner-only enforcement: set header `x-owner-only: 1` and `x-owner` to require the caller match the owner.
-  - Response: `{ xdr: string }`
-
-Notes:
-
-- These endpoints return a transaction XDR composed of `manageData` operations that encode the requested action. The frontend should sign the returned XDR and submit it to Horizon (or via a backend submission endpoint) to complete the operation.
-- Server builds transactions using the Horizon URL in `HORIZON_URL` and network passphrase in `NETWORK_PASSPHRASE` (defaults to testnet). Set these environment variables in production to use a different network.
-
-Insurance endpoints (v1)
-
-- `POST /api/insurance` — Create policy transaction XDR
-  - Request headers: `x-user` (caller public key)
-  - Body: `{ name, coverageType, monthlyPremium, coverageAmount }`
-  - Validations: `monthlyPremium > 0`, `coverageAmount > 0`, required `name` and `coverageType`.
-  - Response: `{ xdr: string }` — unsigned transaction XDR ready for the frontend to sign and submit.
-
-- `POST /api/insurance/[id]/pay` — Build pay-premium transaction XDR
-  - Request headers: `x-user` (caller public key)
-  - Response: `{ xdr: string }`
-
-- `POST /api/insurance/[id]/deactivate` — Build deactivate-policy transaction XDR
-  - Request headers: `x-user` (caller public key)
-  - Optional owner-only enforcement: set header `x-owner-only: 1` and `x-owner` to require the caller match the owner.
-  - Response: `{ xdr: string }`
-
-Notes:
-
-- These endpoints return transaction XDRs composed with `manageData` operations to encode policy actions. If you prefer Soroban contract invocations, I can convert the builders to use contract calls.
-
-## Stellar TOML discovery
-
-RemitWise exposes wallet and anchor discovery support through the Stellar TOML standard.
-
-- `GET /.well-known/stellar.toml`
-- optional redirect via `STELLAR_TOML_REDIRECT`
-
-The endpoint returns a valid Stellar TOML file with discovery fields such as:
-
-- `DOCUMENTATION`
-- `SIGNING_KEY`
-- `TRANSFER_SERVER`
-- `WEB_AUTH_ENDPOINT`
-- `KYC_SERVER`
-
-To configure a custom domain, set environment variables in production or host a static TOML at the domain root. If the domain is not ready yet, use `STELLAR_TOML_REDIRECT` to point wallets to a hosted TOML.
-
-Example environment variables:
-
-- `STELLAR_TOML_REDIRECT`
-- `STELLAR_SIGNING_KEY`
-- `STELLAR_DOCUMENTATION_URL`
-- `STELLAR_TRANSFER_SERVER`
-- `STELLAR_WEB_AUTH_ENDPOINT`
-- `STELLAR_KYC_SERVER`
-
-## API Discovery
-
-RemitWise exposes an OpenAPI discovery endpoint:
-
- /api/.well-known/openapi
-
-This allows integrators and wallets to automatically discover
-the RemitWise API specification.
-
-## Sentry
-
-Sentry error monitoring is integrated for client, server, and edge runtimes.
-
-**Required environment variables** (see `.env.example`):
-- `NEXT_PUBLIC_SENTRY_DSN` — public DSN for browser and client
-- `SENTRY_DSN` — server/edge DSN (same value)
-- `SENTRY_ORG`, `SENTRY_PROJECT` — project identifiers for source map uploads
-- `SENTRY_AUTH_TOKEN` — CI-only token (never commit); store as secret in CI
-- `SENTRY_RELEASE` — release id (git SHA or tag), set automatically in CI
-- `NEXT_PUBLIC_APP_ENV` — `development` | `staging` | `production`
-
-**Sample rates**:
-- `NEXT_PUBLIC_APP_ENV=production` sets lower rates: `tracesSampleRate: 0.1`, `replaysSessionSampleRate: 0.05`
-- Non-production uses higher rates for visibility
-
-**Tunnel route**:
-- All Sentry requests are proxied through `/monitoring` (configured in `next.config.js`) to avoid ad blockers.
-
-**PII scrubbing**:
-- Client (`scrubStellarPII`): Stellar addresses (`G[A-Z2-7]{55}`) and amounts (`\d+ XLM|USDC|USD`) are replaced before send.
-- Server (`scrubServerPII`): same + `iron-session` tokens are redacted.
-- Scrubbers live inside each config file for edge compatibility.
-
-**Source maps**:
-- Uploaded during build when `SENTRY_AUTH_TOKEN` and CI are present.
-- `hideSourceMaps: true` prevents browser exposure.
+MIT License
