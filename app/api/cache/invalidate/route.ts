@@ -1,21 +1,6 @@
-/**
- * Cache Invalidation API
- * 
- * POST /api/cache/invalidate - Manual cache invalidation
- * GET /api/cache/invalidate - Cache statistics
- * 
- * @security Rate limiting recommended in production
- * @security Authentication required in production
- * 
- * Request body validation:
- * - pattern (optional): Invalidate entries matching pattern
- * - contractId (optional): Invalidate all entries for a contract
- * - method (optional): Invalidate specific method (requires contractId)
- * - args (optional): Invalidate specific call (requires contractId and method)
- * - clearAll (optional): Clear entire cache
- */
-
 import { NextRequest, NextResponse } from 'next/server';
+import { isAdminAuthorized } from '@/lib/admin/auth';
+import { checkIdempotency, storeIdempotentResponse } from '@/lib/idempotency/middleware';
 import {
   invalidate,
   invalidatePattern,
@@ -56,13 +41,27 @@ async function validateRequestBody(request: NextRequest): Promise<unknown> {
  * 
  * Allows manual cache invalidation for testing and debugging.
  * 
- * @security Should be protected with authentication in production
- * @security Should have rate limiting in production
+ * @security Protected with admin authentication
+ * @security Idempotency check for safe retries
  */
 export async function POST(request: NextRequest) {
+  // Authorization: Only admins can invalidate cache
+  if (!isAdminAuthorized(request)) {
+    return NextResponse.json(
+      { success: false, error: 'Unauthorized' },
+      { status: 401 }
+    );
+  }
+
   try {
     // Validate and parse request body
     const body = await validateRequestBody(request);
+
+    // Idempotency check for safe retries and concurrent execution
+    const cachedResponse = await checkIdempotency(request, body);
+    if (cachedResponse) {
+      return cachedResponse;
+    }
 
     // Type guard for body
     if (typeof body !== 'object' || body === null || Array.isArray(body)) {
@@ -76,11 +75,12 @@ export async function POST(request: NextRequest) {
     }
 
     const typedBody = body as Record<string, unknown>;
+    let response: NextResponse;
 
     // Clear all cache
     if (typedBody.clearAll === true) {
       clearCache();
-      return NextResponse.json({
+      response = NextResponse.json({
         success: true,
         message: 'Cache cleared completely',
         stats: getCacheStats(),
@@ -88,10 +88,10 @@ export async function POST(request: NextRequest) {
     }
 
     // Pattern-based invalidation
-    if (typeof typedBody.pattern === 'string') {
+    else if (typeof typedBody.pattern === 'string') {
       try {
         const count = invalidatePattern(typedBody.pattern);
-        return NextResponse.json({
+        response = NextResponse.json({
           success: true,
           message: `Invalidated ${count} cache entries matching pattern`,
           pattern: typedBody.pattern,
@@ -114,7 +114,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Specific invalidation
-    if (typeof typedBody.contractId === 'string') {
+    else if (typeof typedBody.contractId === 'string') {
       try {
         if (typeof typedBody.method === 'string') {
           // Validate args if provided
@@ -124,7 +124,7 @@ export async function POST(request: NextRequest) {
 
           // Invalidate specific method call
           const existed = invalidate(typedBody.contractId, typedBody.method, args);
-          return NextResponse.json({
+          response = NextResponse.json({
             success: true,
             message: existed ? 'Cache entry invalidated' : 'Cache entry not found',
             contractId: typedBody.contractId,
@@ -136,7 +136,7 @@ export async function POST(request: NextRequest) {
         } else {
           // Invalidate all methods for a contract
           const count = invalidatePattern(typedBody.contractId);
-          return NextResponse.json({
+          response = NextResponse.json({
             success: true,
             message: `Invalidated ${count} cache entries for contract`,
             contractId: typedBody.contractId,
@@ -161,18 +161,31 @@ export async function POST(request: NextRequest) {
     }
 
     // No valid operation specified
-    return NextResponse.json(
-      {
-        success: false,
-        error: 'Invalid request. Provide clearAll, pattern, or contractId',
-        validOperations: {
-          clearAll: 'boolean - Clear entire cache',
-          pattern: 'string - Invalidate entries matching pattern',
-          contractId: 'string - Invalidate entries for contract (optionally with method and args)',
+    else {
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'Invalid request. Provide clearAll, pattern, or contractId',
+          validOperations: {
+            clearAll: 'boolean - Clear entire cache',
+            pattern: 'string - Invalidate entries matching pattern',
+            contractId: 'string - Invalidate entries for contract (optionally with method and args)',
+          },
         },
-      },
-      { status: 400 }
-    );
+        { status: 400 }
+      );
+    }
+
+    // Store successful response for idempotency
+    if (response.status >= 200 && response.status < 300) {
+      storeIdempotentResponse(request, body, {
+        status: response.status,
+        body: await response.clone().json(),
+      });
+    }
+
+    return response;
+
   } catch (error) {
     // Handle validation errors
     if (error instanceof Error && error.message.includes('Request body')) {
@@ -206,10 +219,17 @@ export async function POST(request: NextRequest) {
  * 
  * Returns cache statistics and keys for debugging.
  * 
- * @security Should be protected with authentication in production
- * @security Consider disabling key listing in production
+ * @security Protected with admin authentication
  */
 export async function GET(request: NextRequest) {
+  // Authorization: Only admins can view cache stats
+  if (!isAdminAuthorized(request)) {
+    return NextResponse.json(
+      { success: false, error: 'Unauthorized' },
+      { status: 401 }
+    );
+  }
+
   try {
     const stats = getCacheStats();
     
